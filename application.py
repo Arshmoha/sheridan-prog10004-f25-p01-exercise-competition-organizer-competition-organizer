@@ -11,4 +11,14 @@ class Application:
 
     def run(self):
         """Provides the main interaction loop of the program"""
-        pass
+        #ask the competition to load the athletes data from its file
+        self._competition.load()
+
+        #ask the competition to print the athlete roster
+        self._competition.printCompetitors()
+
+        #ask the competition to export a new file of medalists
+        self._competition.saveMedalists()
+
+        #TODO: Write interaction code to register
+        #athletes into the competition

@@ -20,3 +20,7 @@ class Competition:
     def printCompetitors(self):
         """Prints the list of competitors that participate in the competition"""
         pass
+
+    def saveMedalists(self):
+        """Exports a new file with the althelets that won a medal"""
+        pass
