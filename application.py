@@ -5,4 +5,9 @@
 from competition import Competition
 
 class Application:
-    pass
+    def __init__(self):
+        pass
+
+    def run(self):
+        """Provides the main interaction loop of the program"""
+        pass
