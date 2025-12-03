@@ -11,7 +11,27 @@ class Competition:
 
     def load(self):
         """Loads the athlete data from a data file"""
-        pass
+        #open the file
+        compFile = open(Competition.ATHLETE_DATA_FILE_NAME, "r")
+
+        #read the text lines from the file -> list of lines (records)
+        athlData = compFile.readlines()[1:] #skip the header line
+
+        #for each athlete record
+        for athleteRecord in athlData:
+            #read the record information
+            athlInfo = athleteRecord.split(",")
+
+            #create the athlete object
+            athlete = Athlete()
+
+            #set all the athlete information
+            athlete.setName(athlInfo[0])
+            athlInfo.setGender(athlInfo[1])
+
+            #add the athlete to the list
+
+        #close the file
 
     def save(self):
         """Saves the athlete data to a data file"""
