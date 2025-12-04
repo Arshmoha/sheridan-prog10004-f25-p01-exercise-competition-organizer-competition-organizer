@@ -12,11 +12,9 @@ class Competition:
 
     def load(self):
         """Loads the athlete data from a data file"""
-        compFile = None
-        try:
-            #open the file
-            compFile = open(Competition.ATHLETE_DATA_FILE_NAME, "r")
 
+        #open the file
+        with open(Competition.ATHLETE_DATA_FILE_NAME, "r") as compFile:
             #read the text lines from the file -> list of lines (records)
             athlData = compFile.readlines()[1:] #skip the header line
 
@@ -28,10 +26,6 @@ class Competition:
 
                 #add the athlete to the list
                 self._athleteList.append(athlete)
-        finally:
-            if compFile != None:
-                #close the file
-                compFile.close()
 
     def save(self):
         """Saves the athlete data to a data file"""
@@ -53,11 +47,9 @@ class Competition:
 
     def saveMedalists(self):
         """Exports a new file with the althelets that won a medal"""
-        medFile = None
-        try:
-            #open the file
-            medFile = open(Competition.MEDALISTS_DATA_FILE_NAME, "w")
 
+        #open the file
+        with open(Competition.MEDALISTS_DATA_FILE_NAME, "w") as medFile:
             #write the header
             medFile.write("Name, Gender, Age, Team, Event, Medal\n")
 
@@ -72,7 +64,3 @@ class Competition:
 
                     #go the the next line in the file
                     medFile.write("\n")
-        finally:
-            if medFile != None:
-                #close the file
-                medFile.close()
