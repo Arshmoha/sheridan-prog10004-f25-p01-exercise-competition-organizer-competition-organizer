@@ -63,10 +63,14 @@ class Athlete:
 
     def getMedal(self):
         """Returns the medal the althlete has earned or None if they have no medal"""
+        assert self._medal != None, "This athlete does not have a medal. Call hasMedal() to check first"
         return self._medal
     
     def setMedal(self, medal):
         """Sets the medal for this athlete"""
         self._medal = medal
+
+    def hasMedal(self):
+        return self._medal != None
 
     

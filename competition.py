@@ -4,6 +4,7 @@ from athelete import Athlete
 
 class Competition:
     ATHLETE_DATA_FILE_NAME = "data/olympics.csv"
+    MEDALISTS_DATA_FILE_NAME = "data/medalists.csv"
 
     def __init__(self):
         """Constructor method that defines the field variables for competition objects"""
@@ -35,8 +36,37 @@ class Competition:
 
     def printCompetitors(self):
         """Prints the list of competitors that participate in the competition"""
-        pass
+        #go through the list of competitors and print their information
+        for athlete in self._athleteList:
+            print()
+            print(f"Name: {athlete.getName()}")
+            print(f"Gender: {athlete.getGender()}")
+            print(f"Age: {athlete.getAge()}")
+            print(f"Team: {athlete.getTeam()}")
+            print(f"Event: {athlete.getEvent()}")
+            if athlete.hasMedal():
+                print(f"Medal: {athlete.getMedal()}")
+
 
     def saveMedalists(self):
         """Exports a new file with the althelets that won a medal"""
-        pass
+        #open the file
+        medFile = open(Competition.MEDALISTS_DATA_FILE_NAME, "w")
+
+        #write the header
+        medFile.write("Name, Gender, Age, Team, Event, Medal\n")
+
+        #go through each athlete in the competition
+        for athlete in self._athleteList:
+            #compose a CSV record with the athlete information if the athlete has a medal
+            if athlete.hasMedal():
+                #write the record to the file
+                athleteRecord = f"{athlete.getName()}, {athlete.getGender()}, {athlete.getAge()} , {athlete.getTeam()} , {athlete.getEvent()} , {athlete.getMedal()}"
+
+                medFile.write(athleteRecord)
+
+                #go the the next line in the file
+                medFile.write("\n")
+        
+        #close the file
+        medFile.close()
