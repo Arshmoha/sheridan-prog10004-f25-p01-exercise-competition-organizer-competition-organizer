@@ -3,13 +3,23 @@
 class Athlete:
     """Defines the athlete information and functionality related to it"""
     
-    def __init__(self):
-        self._name = ""
-        self._gender = ""
-        self._age = 0
-        self._team = ""
-        self._event = ""
-        self._medal = ""
+    def __init__(self, initData = None):
+        """Creates an athlete object that is empty or loaded from teh supplied list of values"""
+        if initData == None:
+            self._name = ""
+            self._gender = ""
+            self._age = 0
+            self._team = ""
+            self._event = ""
+            self._medal = ""
+        else:
+            #initilize the athlete with init data if supplied            
+            self._name = initData[0]
+            self._gender = initData[1]
+            self._age = int(initData[2])
+            self._team = initData[3]
+            self._event = initData[4]
+            self._medal = initData[5] if initData[5] != "NA" else None
 
     def getName(self):
         """Returns the name of the athlete"""
