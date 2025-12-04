@@ -19,19 +19,15 @@ class Competition:
 
         #for each athlete record
         for athleteRecord in athlData:
-            #read the record information
-            athlInfo = athleteRecord.split(",")
-
             #create the athlete object
-            athlete = Athlete()
-
-            #set all the athlete information
-            athlete.setName(athlInfo[0])
-            athlInfo.setGender(athlInfo[1])
+            athlInitDataList = athleteRecord[:-1].split(",")
+            athlete = Athlete(athlInitDataList)
 
             #add the athlete to the list
+            self._athleteList.append(athlete)
 
         #close the file
+        compFile.close()
 
     def save(self):
         """Saves the athlete data to a data file"""
