@@ -14,12 +14,27 @@ class Athlete:
             self._medal = ""
         else:
             #initilize the athlete with init data if supplied            
-            self._name = initData[0]
-            self._gender = initData[1]
-            self._age = int(initData[2])
-            self._team = initData[3]
-            self._event = initData[4]
-            self._medal = initData[5] if initData[5] != "NA" else None
+            self._name = initData["Name"]
+            self._gender = initData["Gender"]
+            self._age = int(initData["Age"])
+            self._team = initData["Team"]
+            self._event = initData["Event"]
+            
+            #read the medal data which is either NA or an actual medal.
+            #if the medal is NA, initialize the medal to None
+            medalData = initData["Medal"]
+            self._medal = medalData if medalData != "NA" else None
+
+    def toDict(self):
+        """Transform the athlete object into a dictionary to be used in JSON serializtion"""
+        return {
+            "Name" : self._name,
+            "Gender" : self._gender,
+            "Age": self._age,
+            "Team": self._team,
+            "Event": self._event,
+            "Medal": "NA" if self._medal == None else self._medal
+        }
 
     def getName(self):
         """Returns the name of the athlete"""

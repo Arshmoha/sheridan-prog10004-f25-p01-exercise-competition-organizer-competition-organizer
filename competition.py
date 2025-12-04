@@ -1,10 +1,11 @@
 """Defines the Competition class which manages competition/athlete data"""
 
+import json
 from athelete import Athlete
 
 class Competition:
-    ATHLETE_DATA_FILE_NAME = "data/olympics.csv"
-    MEDALISTS_DATA_FILE_NAME = "data/medalists.csv"
+    ATHLETE_DATA_FILE_NAME = "data/olympics.json"
+    MEDALISTS_DATA_FILE_NAME = "data/medalists.json"
 
     def __init__(self):
         """Constructor method that defines the field variables for competition objects"""
@@ -15,14 +16,13 @@ class Competition:
 
         #open the file
         with open(Competition.ATHLETE_DATA_FILE_NAME, "r") as compFile:
-            #read the text lines from the file -> list of lines (records)
-            athlData = compFile.readlines()[1:] #skip the header line
+            #read the athlete data in JSON format
+            athlData = json.load(compFile)
 
             #for each athlete record
             for athleteRecord in athlData:
                 #create the athlete object
-                athlInitDataList = athleteRecord[:-1].split(",")
-                athlete = Athlete(athlInitDataList)
+                athlete = Athlete(athleteRecord)
 
                 #add the athlete to the list
                 self._athleteList.append(athlete)
@@ -48,19 +48,20 @@ class Competition:
     def saveMedalists(self):
         """Exports a new file with the althelets that won a medal"""
 
-        #open the file
+        #go through each athlete in the competition and constuct the JSON data store
+        competitionData = [] #this is a list of dictionaries
+        for athlete in self._athleteList:            
+            if athlete.hasMedal():
+                #convert the object into a dictionary
+                athleteData = athlete.toDict()
+                
+                #add the dictionary to the competition data
+                competitionData.append(athleteData)
+                
+        #write the competition data into the json file for medalists
         with open(Competition.MEDALISTS_DATA_FILE_NAME, "w") as medFile:
-            #write the header
-            medFile.write("Name, Gender, Age, Team, Event, Medal\n")
+            json.dump(competitionData, medFile, indent=4)
 
-            #go through each athlete in the competition
-            for athlete in self._athleteList:
-                #compose a CSV record with the athlete information if the athlete has a medal
-                if athlete.hasMedal():
-                    #write the record to the file
-                    athleteRecord = f"{athlete.getName()}, {athlete.getGender()}, {athlete.getAge()} , {athlete.getTeam()} , {athlete.getEvent()} , {athlete.getMedal()}"
 
-                    medFile.write(athleteRecord)
 
-                    #go the the next line in the file
-                    medFile.write("\n")
+           
