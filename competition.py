@@ -12,23 +12,26 @@ class Competition:
 
     def load(self):
         """Loads the athlete data from a data file"""
-        #open the file
-        compFile = open(Competition.ATHLETE_DATA_FILE_NAME, "r")
+        compFile = None
+        try:
+            #open the file
+            compFile = open(Competition.ATHLETE_DATA_FILE_NAME, "r")
 
-        #read the text lines from the file -> list of lines (records)
-        athlData = compFile.readlines()[1:] #skip the header line
+            #read the text lines from the file -> list of lines (records)
+            athlData = compFile.readlines()[1:] #skip the header line
 
-        #for each athlete record
-        for athleteRecord in athlData:
-            #create the athlete object
-            athlInitDataList = athleteRecord[:-1].split(",")
-            athlete = Athlete(athlInitDataList)
+            #for each athlete record
+            for athleteRecord in athlData:
+                #create the athlete object
+                athlInitDataList = athleteRecord[:-1].split(",")
+                athlete = Athlete(athlInitDataList)
 
-            #add the athlete to the list
-            self._athleteList.append(athlete)
-
-        #close the file
-        compFile.close()
+                #add the athlete to the list
+                self._athleteList.append(athlete)
+        finally:
+            if compFile != None:
+                #close the file
+                compFile.close()
 
     def save(self):
         """Saves the athlete data to a data file"""
@@ -50,23 +53,26 @@ class Competition:
 
     def saveMedalists(self):
         """Exports a new file with the althelets that won a medal"""
-        #open the file
-        medFile = open(Competition.MEDALISTS_DATA_FILE_NAME, "w")
+        medFile = None
+        try:
+            #open the file
+            medFile = open(Competition.MEDALISTS_DATA_FILE_NAME, "w")
 
-        #write the header
-        medFile.write("Name, Gender, Age, Team, Event, Medal\n")
+            #write the header
+            medFile.write("Name, Gender, Age, Team, Event, Medal\n")
 
-        #go through each athlete in the competition
-        for athlete in self._athleteList:
-            #compose a CSV record with the athlete information if the athlete has a medal
-            if athlete.hasMedal():
-                #write the record to the file
-                athleteRecord = f"{athlete.getName()}, {athlete.getGender()}, {athlete.getAge()} , {athlete.getTeam()} , {athlete.getEvent()} , {athlete.getMedal()}"
+            #go through each athlete in the competition
+            for athlete in self._athleteList:
+                #compose a CSV record with the athlete information if the athlete has a medal
+                if athlete.hasMedal():
+                    #write the record to the file
+                    athleteRecord = f"{athlete.getName()}, {athlete.getGender()}, {athlete.getAge()} , {athlete.getTeam()} , {athlete.getEvent()} , {athlete.getMedal()}"
 
-                medFile.write(athleteRecord)
+                    medFile.write(athleteRecord)
 
-                #go the the next line in the file
-                medFile.write("\n")
-        
-        #close the file
-        medFile.close()
+                    #go the the next line in the file
+                    medFile.write("\n")
+        finally:
+            if medFile != None:
+                #close the file
+                medFile.close()
